@@ -37,7 +37,7 @@ library(ggfortify)
 # Tahapan OSEMN
 # 1. Obtain Data 
 ```{r}
-pm <- read.csv ("C:/ade suci/pmbmikroskil (1).csv")
+pm <- read.csv ("~/pmbmikroskil.csv")
 ```
 
 # 2. Scrubbing Data
@@ -47,12 +47,10 @@ pm <- pm[,1:11]
 #fungsi head digunakan utk menampilkan 6 data teratas
 head(pm)
 ```
-
 ```{r}
 #fungsi tail digunakan utk menampilkan 6 data terbawah
 tail(pm)
 ```
-
 ```{r}
 #untuk menampilkan semua data 
 pm
@@ -61,19 +59,16 @@ pm
 #fungsi untuk melihat summary dari data
 summary(pm)
 ```
-
 ```{r}
 #Terdapat 2 buah data NA (Missing Value)
 #fungsi utk menghilangkan nilai NA atau missing value
 pmclean <- na.omit(pm)
 summary(pmclean)
 ```
-
 ```{r}
 #fungsi untuk menampilkan type data dari kolom atau variabel
 glimpse(pmclean)
 ```
-
 ```{r}
 # Karena Tanggal.Daftar dalam bentuk type data karakter, maka kita harus rubah kedalam bentuk type data (date) atau tanggal, dengan format dd.mm.yyy
 pmnew <- pmclean %>% 
@@ -81,12 +76,10 @@ pmnew <- pmclean %>%
   arrange(Tanggal.Daftar)
 head(pmnew)
 ```
-
 ```{r}
 # fungsi untuk Untuk menampilkan tipe dan struktur data dari kolom atau variabel 
 glimpse(pmnew)
 ```
-
 ```{r}
 #merubah type data jumlah.mhs menjadi double
 pmnew$Jumlah.Mhs <- as.numeric(as.factor(pmnew$Jumlah.Mhs))
@@ -136,8 +129,6 @@ nrow(pmnew)
 # fungsi dim untuk menampilkan jumlah kolom dan baris data
 dim(pmnew)
 ```
-
-
 ```{r}
 #fungsi adf.test untuk mengecek kestasioneran data
 adf.test(pmnew$Jumlah.Mhs)
@@ -166,19 +157,16 @@ glimpse(pmstmik)
 #untuk menampilkan 6 data teratas dalam dataset penerimaan mahasiswa baru di STMIK-STIE Mikroskil Medan
 head(pmstmik)
 ```
-
 ```{r}
 # kita ingin melakukan filter data dengan kondisi program studi Akuntansi dan Manajemen saja
 pmstie <- pmnew %>% 
   filter (Program.Studi == "MANAJEMEN (S-1)" | Program.Studi == "AKUNTANSI (S-1)")
 glimpse(pmstie)
 ```
-
 ```{r}
 pmstmik <- na.omit(pmstmik)
 summary(pmstmik)
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar pertahun di STMIK-STIE Mikroskil
 # menghitung jumlah mahasiswa pertahun
@@ -190,8 +178,6 @@ pmahasiswa <- pmnew %>%
   ) 
 pmahasiswa
 ```
-
-
 ```{r}
 #visualisasi Jumlah Mahasiswa STMIK-STIE Mikroskil Pertahun
 ggplot (data=pmahasiswa, mapping=aes(x=year, y=(daftar_year), col=year)) + 
@@ -201,7 +187,6 @@ ggplot (data=pmahasiswa, mapping=aes(x=year, y=(daftar_year), col=year)) +
        title="Jumlah Mahasiswa STMIK-STIE Mikroskil Pertahun") +
   theme_minimal()
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar perbulan STMIk-STIE
 pmahasiswa_bln <- pmnew %>%
@@ -212,7 +197,6 @@ pmahasiswa_bln <- pmnew %>%
   )
 pmahasiswa_bln
 ```
-
 ```{r}
 # Visualisasi Jumlah Mahasiswa STMIk-STIE Mikroskil per Bulan
 ggplot (data=pmahasiswa_bln, mapping=aes(x=bulan, y=(daftar_bulan), col=bulan)) + 
@@ -222,7 +206,6 @@ ggplot (data=pmahasiswa_bln, mapping=aes(x=bulan, y=(daftar_bulan), col=bulan)) 
        title="Jumlah Mahasiswa STMI-STIE Mikroskil Perbulan") +
   theme_minimal()
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar perhari STMIK-STIE
 pmahasiswa_hari <- pmnew %>%
@@ -252,7 +235,6 @@ pmstmikyear <- pmstmik %>%
   ) 
 pmstmikyear
 ```
-
 ```{r}
 # visualisasi Jumlah Mahasiswa STMIK Pertahun
 ggplot (data=pmstmikyear, mapping=aes(x=year, y=(daftar_year), col=year)) + 
@@ -262,7 +244,6 @@ ggplot (data=pmstmikyear, mapping=aes(x=year, y=(daftar_year), col=year)) +
        title="Jumlah Mahasiswa STMIK Pertahun") +
   theme_minimal()
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar perbulan di STMIK
 jumlahstmik_bln <- pmstmik %>%
@@ -282,7 +263,6 @@ ggplot (data=jumlahstmik_bln, mapping=aes(x=bulan, y=(daftar_bulan), col=bulan))
        title="Jumlah Mahasiswa STMIK Perbulan") +
   theme_minimal()
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar perhari di STMIK
 jumlahstmik_hari <- pmstmik %>%
@@ -306,7 +286,6 @@ ggplot (data=jumlahstmik_hari, mapping=aes(x=hari, y=(daftar_hari), col=hari)) +
 # Menghitung jumlah daftar berdasarkan asal sekolah dan nama kota
 countsklh_stmik <- group_by (pmstmik, Nama.Sekolah, Nama.Kota)
 count(countsklh_stmik)
-
 ```
 ```{r}
 # 10 besar asal sekolah yg mendaftar paling banyak dari tahun 2010-2019 - STMIK
@@ -315,7 +294,6 @@ pmstmik %>%
   count() %>%
   arrange(-n)
 ```
-
 ```{r}
 # untuk menghilangkan nilai NA (missing value)
 pmstie1 <- na.omit(pmstie)
@@ -331,7 +309,6 @@ pmstieyear <- pmstie %>%
   ) 
 pmstieyear
 ```
-
 ```{r}
 # visualisasi Jumlah Mahasiswa STIE Pertahun
 ggplot (data=pmstieyear, mapping=aes(x=year, y=(daftar_year), col=year)) + 
@@ -341,7 +318,6 @@ ggplot (data=pmstieyear, mapping=aes(x=year, y=(daftar_year), col=year)) +
        title="Jumlah Mahasiswa STIE Pertahun") +
   theme_minimal()
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar perbulan di STIE
 jumlahstie_bln <- pmstie %>%
@@ -361,7 +337,6 @@ ggplot (data=jumlahstie_bln, mapping=aes(x=bulan, y=(daftar_bulan), col=bulan)) 
        title="Jumlah Mahasiswa STIE Perbulan") +
   theme_minimal()
 ```
-
 ```{r}
 # Menampilkan jumlah mahasiswa yang daftar perhari di STIE
 jumlahstie_hari <- pmstie %>%
@@ -381,12 +356,10 @@ ggplot (data=jumlahstie_hari, mapping=aes(x=hari, y=(daftar_hari), col=hari)) +
        title="Jumlah Mahasiswa STIE Perhari") +
   theme_minimal()
 ```
-
 ```{r}
 # Menghitung jumlah daftar berdasarkan asal sekolah dan nama kota
 countsklh_stie <- group_by (pmstie, Nama.Sekolah, Nama.Kota)
 count(countsklh_stie)
-
 ```
 ```{r}
 # 10 besar asal sekolah yg mendaftar paling banyak dari tahun 2010-2019 - STIE
@@ -394,9 +367,7 @@ pmstie %>%
   group_by(Nama.Kota, Nama.Sekolah) %>% 
   count() %>%
   arrange(-n)
-  
 ```
-
 ```{r}
 # menghitung jumlah.mhs yang mendaftar berdasarkan program studi
 pmnew %>% 
@@ -411,17 +382,14 @@ prodiSI <- pmstmik %>%
   filter(Program.Studi == "SISTEM INFORMASI (S-1)")
 glimpse(prodiSI)
 ```
-
 ```{r}
 # untuk menampilkan 6 data teratas dalam dataset penerimaan mahasiswa baru khusus prodi SI
 head(prodiSI)
 ```
-
 ```{r}
 # range tanggal pendaftaran mahasiswa baru
 range(prodiSI$Tanggal.Daftar)
 ```
-
 ```{r}
 # tampilkan jumlah mahasiswa program studi Sistem Informasi yang mendaftar perhari
 daily_regis <- prodiSI %>% 
@@ -431,7 +399,6 @@ daily_regis <- prodiSI %>%
   )
 daily_regis
 ```
-
 ```{r}
 # tampilkan jumlah mahasiswa program studi Sistem Informasi yang mendaftar perhari
 daily_regis %>% 
@@ -442,14 +409,12 @@ daily_regis %>%
        title="Jumlah Mahasiswa Program Studi Sistem Informasi") +
   theme_minimal()
 ```
-
 ```{r}
 # filter mahasiswa program studi Teknik Informatika (TI)
 prodiTI <- pmstmik %>% 
   filter(Program.Studi == "TEKNIK INFORMATIKA (S-1)")
 glimpse(prodiTI)
 ```
-
 ```{r}
 head(prodiTI)
 ```
@@ -457,7 +422,6 @@ head(prodiTI)
 # range tanggal pendaftaran mahasiswa baru
 range(prodiTI$Tanggal.Daftar)
 ```
-
 ```{r}
 # tampilkan jumlah mahasiswa program studi Teknik Informatika yang mendaftar perhari
 daily_regis1 <- prodiTI %>% 
@@ -467,7 +431,6 @@ daily_regis1 <- prodiTI %>%
   )
 daily_regis1
 ```
-
 ```{r}
 # visualisasi pendaftaran perhari program studi Teknik Informatika
 daily_regis1 %>% 
@@ -484,7 +447,6 @@ prodiAK <- pmstie %>%
   filter(Program.Studi == "AKUNTANSI (S-1)")
 glimpse(prodiAK)
 ```
-
 ```{r}
 head(prodiAK)
 ```
@@ -492,7 +454,6 @@ head(prodiAK)
 # range tanggal pendaftaran mahasiswa baru
 range(prodiAK$Tanggal.Daftar)
 ```
-
 ```{r}
 # tampilkan jumlah mahasiswa program studi Akuntansi yang mendaftar perhari
 daily_regis2 <- prodiAK %>% 
@@ -512,14 +473,12 @@ daily_regis2 %>%
        title="Jumlah Mahasiswa Program Studi Akuntansi") +
   theme_minimal()
 ```
-
 ```{r}
 # filter mahasiswa program studi MANAJEMEN 
 prodiMJ <- pmstie %>% 
   filter(Program.Studi == "MANAJEMEN (S-1)")
 glimpse(prodiMJ)
 ```
-
 ```{r}
 head(prodiMJ)
 ```
@@ -527,7 +486,6 @@ head(prodiMJ)
 # range tanggal pendaftaran mahasiswa baru
 range(prodiMJ$Tanggal.Daftar)
 ```
-
 ```{r}
 # tampilkan jumlah mahasiswa program studi Manajemen yang mendaftar perhari
 daily_regis3 <- prodiMJ %>% 
@@ -560,29 +518,23 @@ pmb_train <- head(pmb_ts, 9*365)
 pmb_test <- tail(pmb_ts, length(pmb_ts)-length(pmb_train))
 pmb_train %>% decompose() %>% autoplot()
 ```
-
 ```{r}
 # visualisasi Plot Time Series
 plot(pmb_ts, main = "Plot Time Series Jumlah Mahasiswa Baru STMIK-STIE Mikroskil", col = "blue")
-
 ```
-
 ```{r}
 # untuk mengecek kestasioneran data
 adf.test(pmb_train)
 ```
-
 ```{r}
 # untuk menyediakan atau menampilkan deskripsi data
 summary(pmb_train)
 ```
-
 ```{r}
 # fungsi ini untuk uji stasioneritas / mengidentifikasi kemungkinan model yang tepat
 acf(pmb_train)
 pacf(pmb_train)
 ```
-
 ```{r}
 # Model Auto ARIMA /untuk menentukan model terbaik
 pmbmodelauto <- auto.arima(pmb_train,
@@ -590,7 +542,6 @@ pmbmodelauto <- auto.arima(pmb_train,
            approximation = FALSE)
 summary(pmbmodelauto)
 ```
-
 ```{r}
 # untuk melihat signifikan pada model arima
 pmbmodelauto <- arima(pmb_train, order=c(2,1,1))
@@ -600,21 +551,11 @@ coeftest(pmbmodelauto)
 # untuk melihat uji asusmsi residual (uji diagnostik)
 ggtsdiag(pmbmodelauto)
 ```
-
 ```{r}
 # Model yang terbentuk berdasarkan auto.arima untuk data mahasiswa baru ARIMA(2,1,1)
 pmbautoforecast <- forecast(object = pmbmodelauto, h=1825)
 autoplot(pmbautoforecast, main =" Plot Forecast Jumlah Mahasiswa Baru ARIMA (2,1,1)")
 ```
-
-```{r}
-summary(pmbautoforecast)
-```
-
-```{r}
-mean(pmbmodelauto)
-```
-
 ```{r}
 # Visualisasi hasil model dengan ARIMA (2,1,1)
 pmb_ts %>% autoplot (series = "Train Data")+
@@ -622,12 +563,10 @@ pmb_ts %>% autoplot (series = "Train Data")+
   autolayer(pmbautoforecast, series = "Forecast")
 
 ```
-
 ```{r}
 # melihat hasil dari point forecast 
 summary(pmbautoforecast)
 ```
-
 ```{r}
 # melihat mean hasil forecast
 MeanMHS <- round(pmbautoforecast$mean)
@@ -646,28 +585,23 @@ pmb_trainstmik <- head(pmb_tsstmik, 9*365)
 pmb_teststmik <- tail(pmb_tsstmik, length(pmb_tsstmik)-length(pmb_trainstmik))
 pmb_trainstmik %>% decompose() %>% autoplot()
 ```
-
 ```{r}
 # visualisasi Plot Time Series
 plot(pmb_tsstmik, main ="Plot Time Series Jumlah Mahasiswa Baru STMIK", col= "blue")
 ```
-
 ```{r}
 # untuk mengecek kestasioneran data
 adf.test(pmb_trainstmik)
 ```
-
 ```{r}
 # untuk menyediakan atau menampilkan deskripsi data
 summary(pmb_trainstmik)
 ```
-
 ```{r}
 # fungsi ini untuk uji stasioneritas / mengidentifikasi kemungkinan model yang tepat
 acf(pmb_trainstmik)
 pacf(pmb_trainstmik)
 ```
-
 ```{r}
 # Model Auto ARIMA /untuk menentukan model terbaik
 modelstmik <- auto.arima(pmb_trainstmik, 
@@ -675,24 +609,20 @@ modelstmik <- auto.arima(pmb_trainstmik,
            approximation = FALSE)
 summary(modelstmik)
 ```
-
 ```{r}
 # untuk melihat kesignifikan pada model arima
 modelstmik <- arima(pmb_trainstmik, order=c(2,0,0))
 coeftest(modelstmik)
 ```
-
 ```{r}
 # untuk melihat uji asusmsi residual (uji diagnostik)
 ggtsdiag(modelstmik)
 ```
-
 ```{r}
 # Model yang terbentuk berdasarkan auto.arima untuk data mahasiswa baru ARIMA(2,0,0)
 forecaststmik <- forecast(object = modelstmik, h=1825)
 autoplot(forecaststmik, main= "Plot Forecast Jumlah Mahasiswa Baru STMIK ARIMA (2,0,0)")
 ```
-
 ```{r}
 # Visualisasi hasil model dengan ARIMA (2,0,0)
 pmb_tsstmik %>% autoplot (series = "Train Data")+
@@ -700,12 +630,10 @@ pmb_tsstmik %>% autoplot (series = "Train Data")+
   autolayer(forecaststmik, series = "Forecast")
 
 ```
-
 ```{r}
 # melihat hasil dari point forecast
 summary(forecaststmik)
 ```
-
 ```{r}
 # melihat mean hasil forecast
 MeanMHSSTMIK <- round(forecaststmik$mean)
@@ -724,28 +652,23 @@ pmb_trainstie <- head(pmb_tsstie, 5*365)
 pmb_teststie <- tail(pmb_tsstie, length(pmb_tsstie)-length(pmb_trainstie))
 pmb_trainstie %>% decompose() %>% autoplot()
 ```
-
 ```{r}
 # visualisasi Plot Time Series
 plot(pmb_tsstie, main = "Plot Time Series Jumlah Mahasiswa Baru STIE ", col = "blue")
 ```
-
 ```{r}
 # untuk mengecek kestasioneran data
 adf.test(pmb_trainstie)
 ```
-
 ```{r}
 # untuk menyediakan atau menampilkan deskripsi data
 summary(pmb_trainstie)
 ```
-
 ```{r}
 # fungsi ini untuk uji stasioneritas / mengidentifikasi kemungkinan model yang tepat
 acf(pmb_trainstie)
 pacf(pmb_trainstie)
 ```
-
 ```{r}
 # Model Auto ARIMA /untuk menentukan model terbaik
 modelstie <- auto.arima(pmb_trainstie, 
@@ -753,24 +676,20 @@ modelstie <- auto.arima(pmb_trainstie,
            approximation = FALSE)
 summary(modelstie)
 ```
-
 ```{r}
 # untuk melihat kesignifikan pada model arima
 modelstie <- arima(pmb_trainstie, order=c(5,1,0))
 coeftest(modelstie)
 ```
-
 ```{r}
 # untuk melihat uji asusmsi residual (uji diagnostik)
 ggtsdiag(modelstie)
 ```
-
 ```{r}
 # Model yang terbentuk berdasarkan auto.arima untuk data mahasiswa baru ARIMA(5,1,0)
 forecaststie <- forecast(object = modelstie, h=1825)
 autoplot(forecaststie, main = "Plot Forecast Jumlah Mahasiswa Baru STIE ARIMA (5,1,0)")
 ```
-
 ```{r}
 # Visualisasi hasil model dengan ARIMA (5,1,0)
 pmb_tsstie %>% autoplot (series = "Train Data")+
@@ -778,12 +697,10 @@ pmb_tsstie %>% autoplot (series = "Train Data")+
   autolayer(forecaststie, series = "Forecast")
 
 ```
-
 ```{r}
 # melihat hasil dari point forecast
 summary(forecaststie)
 ```
-
 ```{r}
 # melihat mean hasil forecast
 MeanMHSSTIE <- round(forecaststie$mean)
@@ -801,7 +718,6 @@ pmb_trainTI <- head(pmb_tsTI, 5*365)
 pmb_testTI <- tail(pmb_tsTI, length(pmb_tsTI)-length(pmb_trainTI))
 pmb_trainTI %>% decompose() %>% autoplot()
 ```
-
 ```{r}
 adf.test(pmb_trainTI)
 ```
@@ -809,32 +725,26 @@ adf.test(pmb_trainTI)
 acf(pmb_trainTI)
 pacf(pmb_trainTI)
 ```
-
 ```{r}
 modelTI <- arima(pmb_trainTI, order=c(2,0,0))
 coeftest(modelTI)
 ```
-
 ```{r}
 ggtsdiag(modelTI)
 ```
-
 ```{r}
 forecastTI <- forecast(object = modelTI, h=1825)
 autoplot(forecastTI, main = "Plot Forecast Jumlah Mahasiswa Baru TI ARIMA (2,0,0)")
 ```
-
 ```{r}
 pmb_tsTI %>% autoplot (series = "Train Data")+
   autolayer(pmb_testTI, series = "Test Data")+
   autolayer(forecastTI, series = "Forecast")
 
 ```
-
 ```{r}
 summary(forecastTI)
 ```
-
 ```{r}
 MeanMHSTI <- round(forecastTI$mean)
 mean(MeanMHSTI)
@@ -852,41 +762,33 @@ pmb_testSI <- tail(pmb_tsSI, length(pmb_tsSI)-length(pmb_trainSI))
 
 pmb_trainSI %>% decompose() %>% autoplot()
 ```
-
 ```{r}
 adf.test(pmb_trainSI)
 ```
-
 ```{r}
 acf(pmb_trainSI)
 pacf(pmb_trainSI)
 ```
-
 ```{r}
 modelSI <- arima(pmb_trainSI, order=c(2,0,0))
 coeftest(modelSI)
 ```
-
 ```{r}
 ggtsdiag(modelSI)
 ```
-
 ```{r}
 forecastSI <- forecast(object = modelSI, h=1825)
 autoplot(forecastSI, main = "Plot Forecast Jumlah Mahasiswa Baru SI ARIMA (2,0,0)")
 ```
-
 ```{r}
 pmb_tsSI %>% autoplot (series = "Train Data")+
   autolayer(pmb_testSI, series = "Test Data")+
   autolayer(forecastSI, series = "Forecast")
 
 ```
-
 ```{r}
 summary(forecastSI)
 ```
-
 ```{r}
 MeanMHSSI <- round(forecastSI$mean)
 mean(MeanMHSSI)
@@ -903,10 +805,8 @@ pmb_trainAK <- head(pmb_tsAK, 2*365)
 pmb_testAK <- tail(pmb_tsAK, length(pmb_tsAK)-length(pmb_trainAK))
 pmb_trainAK %>% decompose() %>% autoplot()
 ```
-
 ```{r}
-adf.
-test(pmb_trainAK)
+adf.test(pmb_trainAK)
 ```
 
 ```{r}
@@ -1194,7 +1094,3 @@ summary(forecastSTIE_10)
 MeanMHSSTIE_10 <- round(forecastSTIE_10$mean)
 mean(MeanMHSSTIE_10)
 ```
-
-
-
-
